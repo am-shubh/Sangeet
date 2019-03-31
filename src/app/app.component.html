@@ -1,0 +1,110 @@
+<div class="container-fluid h-100 main text-center">
+
+  <!-- Top Navbar showing Title -->
+  <div class="navbar fixed-top navbar-light justify-content-center" style="background-color: #2f3241; color: white;">
+    <h3 class="my-2">
+      Sangeet 🎵
+    </h3>
+  </div>
+
+  <!-- Error to show when files uploaded are not of audio format -->
+  <div *ngIf="fileExtensionError">
+    <div style="text-align: center;" class="alert alert-danger alert-dismissible fade show" role="alert">
+      One or More files did not have Audio file format, neglecting those.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="onDismissError()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Error to show when files already present in the playlist -->
+  <div *ngIf="fileDupliacteError">
+    <div style="text-align: center;" class="alert alert-danger alert-dismissible fade show" role="alert">
+      One or More files already in the playlist, neglecting those.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="onDismissDuplicateError()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Middle Section -->
+  <!-- Displays Area to drag and all tracks  -->
+  <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%">
+    <!-- File Drop Area -->
+    <div style="width: 50%;">
+      <file-drop customstyle="" dropZoneLabel="{{dropLabel}}" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+      </file-drop>
+    </div>
+
+    <!-- Track List -->
+    <div style="width: 50%; max-height: 400px" class="makeScrollable">
+      <div class="text-center" style="color: #ff4081; font-weight: bold;">
+        Tracks Added : {{totalTracksInPlaylist}}
+      </div>
+
+      <div class="list-group">
+        <button type="button" class="list-group-item list-group-item-action" *ngFor="let track of uploadedFiles" [ngClass]=" track.index === currentMusicIndex ? 'active' : ''"
+          (click)="playTrack(track.index)">
+          {{track.title}}
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Controls Part -->
+
+  <div class="navbar fixed-bottom navbar-light" style="background-color: #2f3241; width: 100%; padding-bottom: unset;">
+    <div style="width: 25%">
+      <button mat-icon-button [disableRipple]="true" (click)="repeatToggle()" class="actionButton">
+        <img [src]="repeatStatus === 'one' ? 'assets/Images/repeatOneON.png' : 'assets/Images/repeatON.png' " alt="REP">
+      </button>
+      <button mat-icon-button [disableRipple]="true" [disabled]="!isPlaying" (click)="onStop()" class="actionButton">
+        <img src="assets/Images/stop.png" alt="STOP">
+      </button>
+      <button mat-icon-button [disableRipple]="true" (click)="shuffleList()" class="actionButton">
+        <img [src]="shufflestatus === 'on' ? 'assets/Images/shuffleON.png' : 'assets/Images/shuffle.png' " alt="SHUF">
+      </button>
+    </div>
+
+    <div class="controlButtons">
+
+
+      <div class="actionDiv">
+        <button mat-icon-button [disableRipple]="true" [disabled]="singleTrackAvailable" (click)="playPrevious()" class="actionButton">
+          <img src="assets/Images/skipPrevious.png" alt="PREV">
+        </button>
+        <button mat-icon-button [disableRipple]="true" [disabled]="!isPlaying" (click)="onBackward()" class="actionButton">
+          <img src="assets/Images/replay.png" alt="BACK">
+        </button>
+        <button mat-icon-button [disableRipple]="true" [disabled]="!isPlaying" (click)="onPlayAndPauseToggle()" class="actionButton">
+          <img [src]="musicStatus === 'play' ? 'assets/Images/play.png' : 'assets/Images/pause.png' " alt="PLAY">
+        </button>
+        <button mat-icon-button [disableRipple]="true" [disabled]="!isPlaying" (click)="onForward()" class="actionButton">
+          <img src="assets/Images/forward.png" alt="FORW">
+        </button>
+        <button mat-icon-button [disableRipple]="true" [disabled]="singleTrackAvailable" (click)="playNext()" class="actionButton">
+          <img src="assets/Images/skipNext.png" alt="NEXT">
+        </button>
+      </div>
+
+      <div style="color: white; ">
+        <h4>{{currentMusicTime}}&nbsp;&nbsp;
+          <mat-slider style="cursor: pointer !important; width: 50%;" [disabled]="!isPlaying" (change)="onSliderChange($event)" [value]='percentageComplete'></mat-slider>&nbsp;&nbsp;{{totalMusicTime}}</h4>
+      </div>
+
+
+    </div>
+
+    <div style="width: 25%;">
+      <h4>
+        <button mat-icon-button [disableRipple]="true" (click)="toggleVolume()" class="actionButton">
+          <img [src]="volumeStatus === 'on' ? 'assets/Images/volume.png' : 'assets/Images/mute.png' " alt="VOL">
+        </button>
+        <mat-slider style="cursor: pointer !important; width: 25%;" max="1" step="0.1" (change)="onVolumeChange($event)" [value]='volumeLevel'></mat-slider>
+      </h4>
+    </div>
+  </div>
+
+
+</div>

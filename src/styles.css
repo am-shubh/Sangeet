@@ -1,0 +1,55 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+.mat-slider-horizontal .mat-slider-track-wrapper{
+    background-color: white !important;
+}
+
+.mat-accent .mat-slider-thumb{
+    background-color: white !important;
+}
+
+.ngx-file-drop__drop-zone[_ngcontent-c1]{
+    height: 50vh !important;
+    border: unset !important;
+}
+
+.ngx-file-drop__content{
+    height: 100% !important;
+    color: #ff4081 !important;
+    font-weight: bold;
+    align-items: unset !important;
+}
+
+/* Scroll Bar*/
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(112, 112, 112, 0.31);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #707070; 
+}
+
+.makeScrollable{
+    overflow-y: auto;
+}
+
+button:focus {outline:none;}
+li:focus {outline: none;}
+
+.list-group-item.active{
+    background-color: #ff4081 !important;
+    border-color: #ff4081 !important;
+}
